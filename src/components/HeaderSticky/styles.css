@@ -1,7 +1,0 @@
-/* The sticky class is added to the header with JS when it reaches its scroll position */
-.sticky {
-  width: 100%;
-  position: -webkit-sticky; /* Safari */
-  position: sticky;
-  top: 0;
-}

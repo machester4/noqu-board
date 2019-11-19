@@ -1,6 +1,13 @@
 .nav-bar {
-  width: 100%;
-  height: 36px;
-  padding: 10px 16px;
-  background-color: #4caf50;
+  padding: 10px;
+  background-color: #f1f2f6;
+  display: flex;
+  align-items: center;
+}
+.app-logo {
+  height: 22px;
+}
+.app-name {
+  font-size: 18px;
+  color: #2f3542;
 }

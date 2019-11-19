@@ -1,0 +1,31 @@
+.header {
+  margin: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border: #f1f2f6 solid 0.5px;
+  border-radius: 3px;
+}
+.header-item {
+  height: 100%;
+  padding: 10px;
+  align-items: center;
+}
+.header-item > span {
+  display: block;
+}
+.header-title {
+  font-size: 16px;
+  font-weight: 900;
+  color: #2f3542;
+  padding: 3px 0px;
+}
+.header-body {
+  font-size: 36px;
+  color: #57606f;
+  padding: 3px 0px;
+}
+.header-footer {
+  font-size: 16px;
+  color: #ced6e0;
+}

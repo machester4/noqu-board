@@ -1,0 +1,52 @@
+.queue {
+  margin: 0px 60px;
+  display: flex;
+  flex-direction: column;
+  border: #f1f2f6 solid 0.5px;
+  border-radius: 3px;
+}
+.queue-header {
+  padding: 25px 15px 10px;
+  flex-grow: 1;
+}
+.queue-name {
+  font-size: 22px;
+  color: #57606f;
+}
+.queue-stats {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 60px;
+  align-items: center;
+}
+.queue-stat {
+  margin: 0px 25px;
+  text-align: center;
+}
+.queue-stat-value {
+  padding: 5px 10px;
+  margin: 0px 5px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ced6e0;
+  border: #f1f2f6 solid 0.5px;
+  border-radius: 50%;
+}
+.queue-stat-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #b1becd;
+}
+table {
+  width: 100%;
+  padding: 0px 15px;
+  margin-top: 10px;
+}
+th {
+  text-align: start;
+  color: #2f3542;
+}
+td {
+  color: #57606f;
+}

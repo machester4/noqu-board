@@ -4,7 +4,8 @@ import "./styles.css";
 function NavBar() {
   return (
     <div className="nav-bar">
-      <span>NavBar</span>
+      <img src="/assets/logo.png" className="app-logo" />
+      <span className="app-name">Noqu</span>
     </div>
   );
 }
