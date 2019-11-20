@@ -9,22 +9,33 @@
   padding: 25px 15px 10px;
   flex-grow: 1;
 }
+.queue-name-container {
+  flex-direction: row;
+}
 .queue-name {
   font-size: 22px;
   color: #57606f;
+  margin-left: 25px;
 }
-.queue-stats {
+.queue-states {
   display: flex;
   flex-direction: row;
   width: 100%;
   height: 60px;
   align-items: center;
+  margin-top: 20px;
 }
-.queue-stat {
+.queue-state {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  padding: 0px 10px;
   margin: 0px 25px;
   text-align: center;
+  cursor: pointer;
+  border-radius: 3px;
 }
-.queue-stat-value {
+.queue-state-value {
   padding: 5px 10px;
   margin: 0px 5px;
   font-size: 18px;
@@ -33,10 +44,37 @@
   border: #f1f2f6 solid 0.5px;
   border-radius: 50%;
 }
-.queue-stat-name {
+.queue-state-name {
+  display: inline-block;
   font-size: 18px;
   font-weight: 700;
   color: #b1becd;
+  text-transform: capitalize;
+}
+.queue-state-active .queue-state-name {
+  color: #2f3542;
+}
+.queue-state-active .queue-state-value {
+  border: transparent solid 0.5px;
+  color: #ffffff;
+}
+.queue-state-active .queue-state-value.active {
+  background-color: #1e90ff;
+}
+.queue-state-active .queue-state-value.waiting {
+  background-color: #ffa502;
+}
+.queue-state-active .queue-state-value.completed {
+  background-color: #2ed573;
+}
+.queue-state-active .queue-state-value.failed {
+  background-color: #ff4757;
+}
+.queue-state-active .queue-state-value.delayed {
+  background-color: #eccc68;
+}
+.queue-state-active .queue-state-value.paused {
+  background-color: #70a1ff;
 }
 table {
   width: 100%;
@@ -46,7 +84,36 @@ table {
 th {
   text-align: start;
   color: #2f3542;
+  padding: 0px 10px;
 }
 td {
   color: #57606f;
+  padding: 10px;
+}
+.panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+.panel-expanded {
+  max-height: 485px;
+}
+.panel-no-expanded {
+  max-height: 0;
+}
+.icon-arrow {
+  border: solid #57606f;
+  border-width: 0 1px 1px 0;
+  display: inline-block;
+  padding: 4px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.icon-arrow.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+.icon-arrow.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
 }

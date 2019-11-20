@@ -1,11 +1,7 @@
 .wrapper {
   width: 100vw;
   height: 100vh;
-  background: #76b852; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #76b852, #8dc26f);
-  background: -moz-linear-gradient(right, #76b852, #8dc26f);
-  background: -o-linear-gradient(right, #76b852, #8dc26f);
-  background: linear-gradient(to left, #76b852, #8dc26f);
+  background: #f1f2f6;
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -14,6 +10,20 @@
   width: 360px;
   padding: 8% 0 0;
   margin: auto;
+}
+.login-name-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 45px;
+}
+.login-app-logo {
+  height: 68px;
+}
+.login-app-name {
+  font-size: 58px;
+  color: #2f3542;
 }
 .form {
   position: relative;
@@ -40,7 +50,7 @@
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: #4caf50;
+  background: #57606f;
   width: 100%;
   border: 0;
   padding: 15px;
@@ -53,7 +63,7 @@
 .form button:hover,
 .form button:active,
 .form button:focus {
-  background: #43a047;
+  background: #2f3542;
 }
 .form .message {
   margin: 15px 0 0;
@@ -61,7 +71,7 @@
   font-size: 12px;
 }
 .form .message a {
-  color: #4caf50;
+  color: #2f3542;
   text-decoration: none;
 }
 .container {

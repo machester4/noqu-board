@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useCallback } from "react";
 
-function StatItem({ name, value }) {
+// Libs
+import classNames from "classnames";
+
+function StatItem({ name, value, handleQueueState, queueState }) {
+  const handleChange = useCallback(() => {
+    handleQueueState(name);
+  }, [handleQueueState, name]);
   return (
-    <div className="queue-stat">
-      <span className="queue-stat-value">{value}</span>
-      <span className="queue-stat-name">{name}</span>
+    <div
+      className={classNames("queue-state", {
+        "queue-state-active": queueState === name
+      })}
+      onClick={handleChange}
+    >
+      <span className={classNames("queue-state-value", name)}>{value}</span>
+      <span className="queue-state-name">{name}</span>
     </div>
   );
 }

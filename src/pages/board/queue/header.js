@@ -1,20 +1,40 @@
-import React from "react";
+import React, { useMemo } from "react";
+
+// Libs
+import classNames from "classnames";
+
+// Utils
+import { queueStates } from "../../../utils/constants";
 
 // Components
 import StatItem from "./StatItem";
 
-function Header() {
+function Header({ handleExpand, handleQueueState, queueState, expanded }) {
+  const renderQueueStates = useMemo(() => {
+    return queueStates.map(state => (
+      <StatItem
+        name={state}
+        value="3"
+        handleQueueState={handleQueueState}
+        queueState={queueState}
+      />
+    ));
+  }, [handleQueueState, queueState]);
+
   return (
     <div className="queue-header">
-      <span className="queue-name">Example</span>
-      <div className="queue-stats">
-        <StatItem name="Active" value="3" />
-        <StatItem name="Waiting" value="3" />
-        <StatItem name="Completed" value="120" />
-        <StatItem name="Failed" value="0" />
-        <StatItem name="Delayed" value="0" />
-        <StatItem name="Paused" value="0" />
+      <div className="queue-name-container">
+        <span onClick={handleExpand}>
+          <i
+            className={classNames("icon-arrow", {
+              down: expanded,
+              right: !expanded
+            })}
+          ></i>
+        </span>
+        <span className="queue-name">Example</span>
       </div>
+      <div className="queue-states">{renderQueueStates}</div>
     </div>
   );
 }

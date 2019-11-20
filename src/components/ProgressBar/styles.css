@@ -1,0 +1,19 @@
+.bar-container:after,
+.bar-container:before {
+  content: "";
+  display: table;
+  clear: both;
+}
+.bar-container {
+  text-align: center;
+}
+.bar-tiny {
+  font-size: 12px !important;
+}
+.bar-green {
+  color: #ffffff !important;
+  background-color: #2ed573 !important;
+}
+.bar-light-grey {
+  background-color: #f1f2f6 !important;
+}

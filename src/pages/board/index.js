@@ -1,4 +1,5 @@
 import React from "react";
+import "./styles.css";
 
 // Components
 import NavBar from "./NavBar";
@@ -10,7 +11,7 @@ import { StickyContainer, Sticky } from "react-sticky";
 
 function BoardPage() {
   return (
-    <div>
+    <div className="page">
       <StickyContainer>
         <Sticky>
           {({ style }) => (
