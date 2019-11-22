@@ -90,13 +90,34 @@ td {
   color: #57606f;
   padding: 10px;
 }
+.paginator {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.prev-page {
+  font-size: 16px;
+  color: #2f3542;
+  cursor: pointer;
+  text-align: start;
+}
+.page-count {
+  color: #ced6e0;
+}
+.next-page {
+  font-size: 16px;
+  color: #2f3542;
+  cursor: pointer;
+  text-align: end;
+}
 .panel {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
 }
 .panel-expanded {
-  max-height: 485px;
+  max-height: 525px;
 }
 .panel-no-expanded {
   max-height: 0;
@@ -112,6 +133,10 @@ td {
 .icon-arrow.right {
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
+}
+.icon-arrow.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
 }
 .icon-arrow.down {
   transform: rotate(45deg);

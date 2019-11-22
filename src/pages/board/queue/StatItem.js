@@ -3,14 +3,14 @@ import React, { useCallback } from "react";
 // Libs
 import classNames from "classnames";
 
-function StatItem({ name, value, handleQueueState, queueState }) {
+function StatItem({ name, value, handleFilter, jobFilter }) {
   const handleChange = useCallback(() => {
-    handleQueueState(name);
-  }, [handleQueueState, name]);
+    handleFilter(name);
+  }, [handleFilter, name]);
   return (
     <div
       className={classNames("queue-state", {
-        "queue-state-active": queueState === name
+        "queue-state-active": jobFilter === name
       })}
       onClick={handleChange}
     >

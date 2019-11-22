@@ -4,22 +4,22 @@ import React, { useMemo } from "react";
 import classNames from "classnames";
 
 // Utils
-import { queueStates } from "../../../utils/constants";
+import { jobStates } from "../../../config/NoquBoard";
 
 // Components
 import StatItem from "./StatItem";
 
-function Header({ handleExpand, handleQueueState, queueState, expanded }) {
-  const renderQueueStates = useMemo(() => {
-    return queueStates.map(state => (
+function Header({ handleExpand, handleFilter, jobFilter, expanded }) {
+  const renderJobStates = useMemo(() => {
+    return jobStates.map(state => (
       <StatItem
         name={state}
         value="3"
-        handleQueueState={handleQueueState}
-        queueState={queueState}
+        handleFilter={handleFilter}
+        jobFilter={jobFilter}
       />
     ));
-  }, [handleQueueState, queueState]);
+  }, [handleFilter, jobFilter]);
 
   return (
     <div className="queue-header">
@@ -34,7 +34,7 @@ function Header({ handleExpand, handleQueueState, queueState, expanded }) {
         </span>
         <span className="queue-name">Example</span>
       </div>
-      <div className="queue-states">{renderQueueStates}</div>
+      <div className="queue-states">{renderJobStates}</div>
     </div>
   );
 }
