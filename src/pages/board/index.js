@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./styles.css";
 
 // Components
@@ -8,8 +8,19 @@ import Queue from "./queue";
 
 // Libs
 import { StickyContainer, Sticky } from "react-sticky";
+import { connect } from "react-redux";
+import { init } from "../../config/socket";
 
-function BoardPage() {
+function BoardPage({ metrics }) {
+  useEffect(() => {
+    const authenticated = true;
+    if (authenticated) {
+      init();
+    } else {
+      // * Redirect login
+      // * Disconnect socket
+    }
+  }, []);
   return (
     <div className="page">
       <StickyContainer>
@@ -20,11 +31,17 @@ function BoardPage() {
             </header>
           )}
         </Sticky>
-        <Header />
+        <Header {...metrics.systemMetrics} />
       </StickyContainer>
       <Queue />
     </div>
   );
 }
 
-export default BoardPage;
+function mapStateToProps({ metrics }) {
+  return {
+    metrics
+  };
+}
+
+export default connect(mapStateToProps)(BoardPage);
