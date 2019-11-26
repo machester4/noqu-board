@@ -13,10 +13,14 @@ function handleSytemMetric(data) {
   console.log("system-met", data);
   store.dispatch(updateSystemMetric(data));
 }
+function handleBullMetric(data) {
+  console.log("bull-met", data);
+}
 
 const socketEvents = {
   connect: handleConnect,
-  "system-met": handleSytemMetric
+  "system-met": handleSytemMetric,
+  "bull-met": handleBullMetric
 };
 
 let io;
