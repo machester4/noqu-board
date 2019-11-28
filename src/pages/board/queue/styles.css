@@ -1,5 +1,5 @@
 .queue {
-  margin: 0px 60px;
+  margin: 0px 60px 60px 60px;
   display: flex;
   flex-direction: column;
   border: #f1f2f6 solid 0.5px;

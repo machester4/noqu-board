@@ -1,30 +1,41 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 
 // Libs
 import classNames from "classnames";
 
-// Utils
-import { jobStates } from "../../../config/NoquBoard";
-
 // Components
 import StatItem from "./StatItem";
 
-function Header({ handleExpand, handleFilter, jobFilter, expanded }) {
+function Header({
+  name,
+  statuses,
+  handleExpand,
+  handleFilter,
+  jobFilter,
+  expanded
+}) {
   const renderJobStates = useMemo(() => {
-    return jobStates.map(state => (
-      <StatItem
-        name={state}
-        value="3"
-        handleFilter={handleFilter}
-        jobFilter={jobFilter}
-      />
-    ));
+    return statuses.map(item => {
+      const name = Object.keys(item)[0];
+      return (
+        <StatItem
+          name={name}
+          value={item[name]}
+          handleFilter={handleFilter}
+          jobFilter={jobFilter}
+        />
+      );
+    });
   }, [handleFilter, jobFilter]);
+
+  const onExpand = useCallback(() => {
+    handleExpand(!expanded);
+  }, [expanded]);
 
   return (
     <div className="queue-header">
       <div className="queue-name-container">
-        <span onClick={handleExpand}>
+        <span onClick={onExpand}>
           <i
             className={classNames("icon-arrow", {
               down: expanded,
@@ -32,7 +43,7 @@ function Header({ handleExpand, handleFilter, jobFilter, expanded }) {
             })}
           ></i>
         </span>
-        <span className="queue-name">Example</span>
+        <span className="queue-name">{name}</span>
       </div>
       <div className="queue-states">{renderJobStates}</div>
     </div>

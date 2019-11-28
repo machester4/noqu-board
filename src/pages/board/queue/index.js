@@ -1,9 +1,12 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import "./styles.css";
 
 // Libs
 import classNames from "classnames";
 import ReactJson from "react-json-view";
+
+// Services
+import { getJobsByStatus } from "../../../services/noqu";
 
 // Utils
 import { queuePageSize, jobStates } from "../../../config/NoquBoard";
@@ -12,34 +15,11 @@ import { queuePageSize, jobStates } from "../../../config/NoquBoard";
 import Header from "./header";
 import ProgressBar from "../../../components/ProgressBar";
 
-function Queue({ name }) {
+function Queue({ name, statuses }) {
   const [expanded, setExpanded] = useState(false);
   const [jobStateFilter, setJobStateFilter] = useState(null);
+  const [jobs, setJobs] = useState([]);
   const [paginator, setPaginator] = useState(0);
-
-  const jobs = Array(40).fill({
-    id: "_abc",
-    date: "21/11/19",
-    progress: 100,
-    attemps: 0,
-    data: { name: "test", age: 24 },
-    opts: {}
-  });
-
-  const handleExpandDetails = useCallback(() => {
-    if (!jobStateFilter) {
-      setJobStateFilter(jobStates[0]);
-    }
-    setExpanded(!expanded);
-  }, [expanded, jobStateFilter]);
-
-  const handleJobStateFilter = useCallback(
-    state => {
-      setJobStateFilter(state);
-      if (!expanded) handleExpandDetails();
-    },
-    [handleExpandDetails]
-  );
 
   const handleChangePaginator = useCallback(
     dir => {
@@ -52,20 +32,35 @@ function Queue({ name }) {
     [paginator]
   );
 
+  const fetchJobsOnFilter = useCallback(async () => {
+    console.log("CALL");
+    try {
+      setExpanded(false);
+      const start = queuePageSize * paginator;
+      const end = queuePageSize * (paginator + 1);
+      const { data } = await getJobsByStatus(name, jobStateFilter);
+      setJobs(data);
+      setExpanded(true);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [jobStateFilter]);
+
+  useEffect(() => {
+    if (jobStateFilter) {
+      fetchJobsOnFilter();
+    }
+  }, [fetchJobsOnFilter]);
+
   const renderQueuesDetails = useMemo(() => {
-    if (!jobStateFilter) return null;
-
-    const start = queuePageSize * paginator;
-    const end = queuePageSize * (paginator + 1);
-
-    return jobs.slice(start, end).map(job => (
+    return jobs.map(job => (
       <tr key={job.id}>
         <td>{job.id}</td>
         <td>{job.date}</td>
         <td>
           <ProgressBar percentage={job.progress} />
         </td>
-        <td>{job.attemps}</td>
+        <td>{job.attemptsMade}</td>
         <td>
           <ReactJson
             src={job.data}
@@ -90,13 +85,15 @@ function Queue({ name }) {
         </td>
       </tr>
     ));
-  }, [jobStateFilter, paginator]);
+  }, [jobs]);
 
   return (
     <div className="queue">
       <Header
-        handleExpand={handleExpandDetails}
-        handleFilter={handleJobStateFilter}
+        name={name}
+        statuses={statuses}
+        handleExpand={setExpanded}
+        handleFilter={setJobStateFilter}
         expanded={expanded}
         jobFilter={jobStateFilter}
       />
