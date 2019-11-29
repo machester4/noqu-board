@@ -1,0 +1,41 @@
+.job-wrapper {
+  border: #f1f2f6 solid 0.5px;
+  border-radius: 3px;
+  padding: 0px 10px 10px 10px;
+  margin: 20px 30px;
+}
+.job {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.job > span {
+  font-size: 22px;
+  font-weight: 900;
+  color: #57606f;
+}
+.job-item {
+  height: 100%;
+  padding: 3px 10px 10px 10px;
+  align-items: center;
+}
+.job-item > span {
+  display: block;
+}
+.job-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ced6e0;
+  padding: 3px 0px;
+}
+.job-body {
+  font-size: 14px;
+  color: #57606f;
+  padding: 3px 0px;
+}
+.job-data {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}

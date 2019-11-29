@@ -10,10 +10,11 @@ import { getJobsByStatus } from "../../../services/noqu";
 
 // Utils
 import { queuePageSize, jobStates } from "../../../config/NoquBoard";
+import { formatDate, TS } from "../../../utils/TimeStamp";
 
 // Components
 import Header from "./header";
-import ProgressBar from "../../../components/ProgressBar";
+import Job from "../job/index";
 
 function Queue({ name, statuses }) {
   const [expanded, setExpanded] = useState(false);
@@ -54,36 +55,40 @@ function Queue({ name, statuses }) {
 
   const renderQueuesDetails = useMemo(() => {
     return jobs.map(job => (
-      <tr key={job.id}>
-        <td>{job.id}</td>
-        <td>{job.date}</td>
-        <td>
-          <ProgressBar percentage={job.progress} />
-        </td>
-        <td>{job.attemptsMade}</td>
-        <td>
-          <ReactJson
-            src={job.data}
-            collapseStringsAfterLength={5}
-            collapsed
-            enableClipboard={false}
-            onEdit={false}
-            onAdd={false}
-            onDelete={false}
-          />
-        </td>
-        <td>
-          <ReactJson
-            src={job.opts}
-            collapseStringsAfterLength={5}
-            collapsed
-            enableClipboard={false}
-            onEdit={false}
-            onAdd={false}
-            onDelete={false}
-          />
-        </td>
-      </tr>
+      <Job
+        job={{
+          id: job.id,
+          created: formatDate(job.timestamp),
+          waited: TS(job.processedOn, job.timestamp),
+          procesed: formatDate(job.processedOn),
+          finished: formatDate(job.finishedOn),
+          run: TS(job.finishedOn, job.processedOn),
+          attempts: job.attemptsMade,
+          data: (
+            <ReactJson
+              src={job.data}
+              collapseStringsAfterLength={5}
+              collapsed
+              enableClipboard={false}
+              onEdit={false}
+              onAdd={false}
+              onDelete={false}
+            />
+          ),
+          options: (
+            <ReactJson
+              src={job.opts}
+              collapseStringsAfterLength={5}
+              collapsed
+              enableClipboard={false}
+              onEdit={false}
+              onAdd={false}
+              onDelete={false}
+            />
+          ),
+          progress: job.progress
+        }}
+      />
     ));
   }, [jobs]);
 
@@ -104,44 +109,7 @@ function Queue({ name, statuses }) {
         })}
       >
         <hr />
-        <table>
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>timestamps</th>
-              <th>progress</th>
-              <th>attemps</th>
-              <th>data</th>
-              <th>opts</th>
-            </tr>
-          </thead>
-          <tbody>{renderQueuesDetails}</tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={6}>
-                <div className="paginator">
-                  <span
-                    className="prev-page"
-                    onClick={() => handleChangePaginator("prev")}
-                  >
-                    <i className="icon-arrow left"></i>
-                    <i className="icon-arrow left"></i>
-                  </span>
-                  <span className="page-count">
-                    showing {queuePageSize * (paginator + 1)} of {jobs.length}
-                  </span>
-                  <span
-                    className="next-page"
-                    onClick={() => handleChangePaginator("next")}
-                  >
-                    <i className="icon-arrow right"></i>
-                    <i className="icon-arrow right"></i>
-                  </span>
-                </div>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+        {renderQueuesDetails}
       </div>
     </div>
   );

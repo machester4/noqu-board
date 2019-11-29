@@ -3,12 +3,10 @@ import "./styles.css";
 
 function ProgressBar({ percentage = 0 }) {
   return (
-    <div className="bar-light-grey bar-tiny">
-      <div
-        className="bar-container bar-green"
-        style={{ width: `${percentage}%` }}
-      >
-        {percentage}%
+    <div className="bar-container">
+      <span>Progress {percentage}%</span>
+      <div className="bar-light-grey bar-tiny">
+        <div className="bar-green" style={{ width: `${percentage}%` }} />
       </div>
     </div>
   );

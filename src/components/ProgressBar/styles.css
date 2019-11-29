@@ -5,15 +5,28 @@
   clear: both;
 }
 .bar-container {
-  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 12px;
+}
+.bar-container > span {
+  color: #ced6e0;
+  font-size: 12px;
+  font-weight: 900;
+}
+.bar-container span {
+  padding-right: 5px;
 }
 .bar-tiny {
-  font-size: 12px !important;
+  font-size: 12px;
 }
 .bar-green {
-  color: #ffffff !important;
-  background-color: #2ed573 !important;
+  color: #ffffff;
+  background-color: #2ed573;
 }
 .bar-light-grey {
-  background-color: #f1f2f6 !important;
+  flex-grow: 1;
+  height: 2px;
+  background-color: #f1f2f6;
 }

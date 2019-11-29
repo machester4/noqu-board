@@ -84,7 +84,7 @@ table {
 th {
   text-align: start;
   color: #2f3542;
-  padding: 0px 10px;
+  padding: 10px 10px;
 }
 td {
   color: #57606f;
@@ -141,4 +141,10 @@ td {
 .icon-arrow.down {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
+}
+.data-row td {
+  font-size: 14px;
+}
+.progress-wrapper td {
+  padding: 0px 10px 20px 10px !important;
 }
