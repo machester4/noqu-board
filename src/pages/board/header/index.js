@@ -4,7 +4,7 @@ import "./styles.css";
 // Components
 import Item from "./item";
 
-function Header({ cpu, cpuModel, mem, totalMem }) {
+function Header({ sysUsage: { cpu, cpuModel, mem, totalMem } }) {
   const memoryPercentageUsed = useMemo(() => {
     return `${((mem / totalMem) * 100).toFixed(2)}%`;
   }, [mem]);
@@ -27,5 +27,9 @@ function Header({ cpu, cpuModel, mem, totalMem }) {
     </div>
   );
 }
+
+Header.defaultProps = {
+  sysUsage: { cpu: 0, cpuModel: "CPU Model", mem: 0, totalMem: 8 }
+};
 
 export default Header;

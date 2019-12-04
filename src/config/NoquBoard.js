@@ -1,4 +1,4 @@
-export const jobStates = [
+const jobStates = [
   "active",
   "waiting",
   "completed",
@@ -6,5 +6,8 @@ export const jobStates = [
   "delayed",
   "paused"
 ];
-export const queueFields = [];
-export const queuePageSize = 10;
+const queueFields = [];
+const queuePageSize = 10;
+const pollingInterval = 1000; // ms
+
+export { jobStates, queueFields, queuePageSize, pollingInterval };

@@ -5,9 +5,6 @@ import "./styles.css";
 import classNames from "classnames";
 import ReactJson from "react-json-view";
 
-// Services
-import { getJobsByStatus } from "../../../services/noqu";
-
 // Utils
 import { queuePageSize, jobStates } from "../../../config/NoquBoard";
 import { formatDate, TS } from "../../../utils/TimeStamp";
@@ -16,10 +13,8 @@ import { formatDate, TS } from "../../../utils/TimeStamp";
 import Header from "./header";
 import Job from "../job/index";
 
-function Queue({ name, statuses }) {
-  const [expanded, setExpanded] = useState(false);
-  const [jobStateFilter, setJobStateFilter] = useState(null);
-  const [jobs, setJobs] = useState([]);
+function Queue({ queue: { name, statuses, jobs }, isCurrent, setCurrent }) {
+  const [jobFilter, setJobFilter] = useState(null);
   const [paginator, setPaginator] = useState(0);
 
   const handleChangePaginator = useCallback(
@@ -33,29 +28,23 @@ function Queue({ name, statuses }) {
     [paginator]
   );
 
-  const fetchJobsOnFilter = useCallback(async () => {
-    console.log("CALL");
-    try {
-      setExpanded(false);
-      const start = queuePageSize * paginator;
-      const end = queuePageSize * (paginator + 1);
-      const { data } = await getJobsByStatus(name, jobStateFilter);
-      setJobs(data);
-      setExpanded(true);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [jobStateFilter]);
+  const handleSetCurrent = useCallback(() => {
+    console.log("call set current", name);
+    const start = queuePageSize * paginator;
+    const end = queuePageSize * (paginator + 1);
+    setCurrent({ name: name, status: jobFilter, start, end });
+  }, [jobFilter]);
 
   useEffect(() => {
-    if (jobStateFilter) {
-      fetchJobsOnFilter();
+    if (jobFilter) {
+      handleSetCurrent();
     }
-  }, [fetchJobsOnFilter]);
+  }, [isCurrent, jobFilter]);
 
   const renderQueuesDetails = useMemo(() => {
     return jobs.map(job => (
       <Job
+        key={job.id}
         job={{
           id: job.id,
           created: formatDate(job.timestamp),
@@ -90,22 +79,22 @@ function Queue({ name, statuses }) {
         }}
       />
     ));
-  }, [jobs]);
+  }, [jobs.length, isCurrent]);
 
   return (
     <div className="queue">
       <Header
         name={name}
         statuses={statuses}
-        handleExpand={setExpanded}
-        handleFilter={setJobStateFilter}
-        expanded={expanded}
-        jobFilter={jobStateFilter}
+        handleExpand={handleSetCurrent}
+        handleFilter={setJobFilter}
+        expanded={isCurrent}
+        jobFilter={jobFilter}
       />
       <div
         className={classNames("panel", {
-          "panel-expanded": expanded,
-          "panel-no-expanded": !expanded
+          "panel-expanded": isCurrent,
+          "panel-no-expanded": !isCurrent
         })}
       >
         <hr />

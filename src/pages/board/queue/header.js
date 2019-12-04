@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo } from "react";
 
 // Libs
 import classNames from "classnames";
@@ -19,23 +19,21 @@ function Header({
       const name = Object.keys(item)[0];
       return (
         <StatItem
+          key={name}
           name={name}
           value={item[name]}
           handleFilter={handleFilter}
           jobFilter={jobFilter}
+          expanded={expanded}
         />
       );
     });
-  }, [handleFilter, jobFilter]);
-
-  const onExpand = useCallback(() => {
-    handleExpand(!expanded);
-  }, [expanded]);
+  }, [handleFilter, jobFilter, expanded]);
 
   return (
     <div className="queue-header">
       <div className="queue-name-container">
-        <span onClick={onExpand}>
+        <span onClick={handleExpand}>
           <i
             className={classNames("icon-arrow", {
               down: expanded,

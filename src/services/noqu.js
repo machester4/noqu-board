@@ -18,3 +18,25 @@ export function getJobsByStatus(queue, status) {
     headers: { "Content-Type": "application/json" }
   });
 }
+
+export function getPolling() {
+  return axios({
+    url: "poll",
+    baseURL: URL(),
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  });
+}
+
+export function getPollingQueue(name, status, start, end) {
+  return axios({
+    url: `poll/${name}/${status}`,
+    baseURL: URL(),
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    params: {
+      start,
+      end
+    }
+  });
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState, useMemo } from "react";
+import React, { useCallback, useState, useMemo } from "react";
 import "./styles.css";
 
 // Components
@@ -6,63 +6,74 @@ import NavBar from "./NavBar";
 import Header from "./header";
 import Queue from "./queue";
 
-// Libs
-import { StickyContainer, Sticky } from "react-sticky";
-import { connect } from "react-redux";
-import { init } from "../../config/socket";
+// Hooks
+import { usePolling } from "../../hooks";
 
 // Services
-import { getQueues } from "../../services/noqu";
+import { getPolling, getPollingQueue } from "../../services/noqu";
+import { pollingInterval } from "../../config/NoquBoard";
 
-function BoardPage({ metrics }) {
+function BoardPage() {
+  const [sysUsage, setSysUsage] = useState();
   const [queues, setQueues] = useState([]);
+  const [currentQueue, setCurrentQueue] = useState();
 
   const renderQueues = useMemo(() => {
-    return queues.map(queue => <Queue {...queue} />);
-  }, [queues]);
+    return queues.map(queue => (
+      <Queue
+        key={queue.name}
+        queue={queue}
+        setCurrent={setCurrentQueue}
+        isCurrent={currentQueue && currentQueue.name === queue.name}
+      />
+    ));
+  });
 
-  const loadQueues = useCallback(async () => {
-    try {
-      const { data } = await getQueues();
-      console.log(data);
-      setQueues(data);
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+  const loadQueues = useCallback(
+    async next => {
+      try {
+        if (currentQueue) {
+          console.log("polling current");
+          const { name, status, start, end } = currentQueue;
+          console.log(currentQueue);
+          const {
+            data: { queuesStatus, sysStatus, polling }
+          } = await getPollingQueue(name, status, start, end);
+          const queuesMap = queuesStatus.map(qu => {
+            if (qu.name === currentQueue.name) {
+              qu.jobs = polling;
+            }
+            return qu;
+          });
+          console.log(queuesMap);
+          setQueues(queuesMap);
+          setSysUsage(sysStatus);
+        } else {
+          console.log("polling general");
+          const {
+            data: { queuesStatus, sysStatus }
+          } = await getPolling();
+          console.log(queuesStatus);
+          setQueues(queuesStatus);
+          setSysUsage(sysStatus);
+        }
+        next();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [currentQueue]
+  );
 
-  useEffect(() => {
-    const authenticated = true;
-    if (authenticated) {
-      init();
-      loadQueues();
-    } else {
-      // * Redirect login
-      // * Disconnect socket
-    }
-  }, []);
+  usePolling(loadQueues, pollingInterval);
 
   return (
     <div className="page">
-      <StickyContainer>
-        <Sticky>
-          {({ style }) => (
-            <header style={style}>
-              <NavBar />
-            </header>
-          )}
-        </Sticky>
-        <Header {...metrics.systemMetrics} />
-      </StickyContainer>
+      <NavBar />
+      <Header sysUsage={sysUsage} />
       {renderQueues}
     </div>
   );
 }
 
-function mapStateToProps({ metrics }) {
-  return {
-    metrics
-  };
-}
-
-export default connect(mapStateToProps)(BoardPage);
+export default BoardPage;
